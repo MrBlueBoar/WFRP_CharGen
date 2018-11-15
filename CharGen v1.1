@@ -21,7 +21,12 @@ class Die(object):
         self.sides = sides
 
     def roll(self, qty):
-        return random.randint(1, self.sides) * qty
+        if qty == 1:
+            return random.randint(1, self.sides)
+        elif qty > 1:
+            return random.randint(1, self.sides) + self.roll(qty - 1)
+        else:
+            return (0)
 
 
 # Dice Variables
@@ -5665,6 +5670,7 @@ def dist_mark():
 
 
 def star_sign():
+    global starsign
     star = d100.roll(1)
     if star <= 5:
         starsign = "Star Sign: Wymund the Anchorite - Sign of Enduring"
@@ -5706,7 +5712,6 @@ def star_sign():
         starsign = "Star Sign: The Bonesaw - Sign of Skill and Learning"
     elif 99 <= star <= 100:
         starsign = "Star Sign: The Witchling Star - Sign of Magic"
-    print(starsign)  # print it
     return starsign  # return it to save it to a file
 
 
@@ -6311,6 +6316,7 @@ def create_elf():
     character_data['char_gender'] = character_gender
     career_select()
     character_data['char_career'] = char_career_roll
+    character_data['Starsign'] = star_sign()
     if character_gender == 'Male':
         char_height = 66 + d10.roll(1)
     if character_gender == 'Female':
@@ -6391,7 +6397,7 @@ B. Savvy
     print("BACKGROUND:\n")
     elf_bkg()
     character_data['char_bp'] = char_bp_text
-    star_sign()
+    print(character_data.get('Starsign'))
     print("\n")
     print("FAMILY:\n")
     print("Father:", character_data.get('dad_first'), "the", character_data.get('dad_career'))
@@ -6780,3 +6786,4 @@ def print_to_file(character_data):
 
 main_menu()
 input()
+
